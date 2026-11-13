@@ -360,6 +360,20 @@ html {
 @media (max-width: 600px) {
     .map-sidebar {
         width: min(420px, calc(100% - 24px));
+        pointer-events: none;
+    }
+
+    .map-title,
+    .recording-panel {
+        pointer-events: none;
+    }
+
+    .guessing-toggle,
+    .recording-panel button,
+    .recording-panel audio,
+    .recording-panel iframe,
+    .recording-panel a {
+        pointer-events: auto;
     }
 
     .recording-panel {
