@@ -2,7 +2,7 @@ const mapElement = document.querySelector("#map");
 const map = L.map(mapElement, {
     scrollWheelZoom: true,
     zoomControl: false,
-}).setView([39.98, -75.16], 11);
+}).setView([39.98, -75.16], 12);
 L.control.zoom({ position: "topright" }).addTo(map);
 
 let resizeFrame;
@@ -41,6 +41,7 @@ const selectedBirdIcon = L.icon({
 
 const recordingPanel = document.createElement("aside");
 recordingPanel.className = "recording-panel";
+recordingPanel.hidden = true;
 recordingPanel.setAttribute("aria-label", "Selected bird recording");
 recordingPanel.setAttribute("aria-live", "polite");
 L.DomEvent.disableClickPropagation(recordingPanel);
@@ -78,7 +79,7 @@ titleRow.append(mapTitle);
 
 const mapDescription = document.createElement("p");
 const mapDescription2 = document.createElement("p");
-mapDescription.textContent = " Select a bird marker to listen.";
+mapDescription.textContent = " Select a bird marker or hot spot to listen.";
 mapDescription2.textContent = "Try Guessing Mode to test your bird-call knowledge.";
 
 let guessingMode = false;
@@ -229,7 +230,6 @@ async function loadRecordings() {
     }
 
     const data = await response.json();
-    let defaultRecording;
     const recordings = L.geoJSON(data, {
         pointToLayer: (_feature, latlng) => L.marker(latlng, { icon: birdIcon }),
         onEachFeature: (feature, layer) => {
@@ -240,10 +240,6 @@ async function loadRecordings() {
                 selectedMarker.setIcon(selectedBirdIcon);
                 showRecording(properties);
             });
-
-            if (properties["ML Catalog Number"] === "422990911") {
-                defaultRecording = properties;
-            }
         },
     });
 
@@ -371,19 +367,6 @@ async function loadRecordings() {
     });
     clusters.addLayer(recordings);
     map.addLayer(clusters);
-
-    if (recordings.getBounds().isValid()) {
-        const leftPadding = window.innerWidth > 600
-            ? recordingPanel.getBoundingClientRect().width + 24
-            : 24;
-        map.fitBounds(recordings.getBounds(), {
-            paddingTopLeft: [leftPadding, 24],
-            paddingBottomRight: [24, 24],
-        });
-    }
-    if (defaultRecording) {
-        showRecording(defaultRecording);
-    }
 }
 
 loadRecordings().catch((error) => {

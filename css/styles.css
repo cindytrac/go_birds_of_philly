@@ -198,7 +198,10 @@ html {
 }
 
 .map-title {
+    width: max-content;
+    max-width: min(760px, calc(100vw - 24px));
     flex: none;
+    min-width: 0;
     padding: 0.8rem 1rem;
     border: 1px solid #dce5df;
     border-radius: 0.35rem;
@@ -210,7 +213,8 @@ html {
 .map-title-row {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
     gap: 0.65rem;
 }
 
@@ -222,8 +226,11 @@ html {
 }
 
 .map-title h1 {
+    flex: 1 1 auto;
+    min-width: 0;
     margin: 0;
-    font-size: 2rem;
+    font-size: clamp(1rem, 3vw, 2rem);
+    white-space: nowrap;
 }
 
 .map-title p {
@@ -234,9 +241,10 @@ html {
 }
 
 .guessing-toggle {
-    flex: none;
+    flex: 0 0 auto;
     margin-left: auto;
-    padding: 0.65rem 0.85rem;
+    max-width: 48%;
+    padding: 0.5rem 0.65rem;
     border: 1px solid #145746;
     border-radius: 0.3rem;
     background: #ffffff;
@@ -244,7 +252,9 @@ html {
     box-shadow: 0 1px 5px rgb(0 0 0 / 25%);
     cursor: pointer;
     font: inherit;
+    font-size: clamp(0.7rem, 1.4vw, 0.95rem);
     font-weight: 600;
+    white-space: normal;
 }
 
 .guessing-toggle:hover,
@@ -344,5 +354,19 @@ html {
 
     .recording-popup iframe {
         height: clamp(160px, 40dvh, 360px);
+    }
+
+    .map-title-row {
+        gap: 0.4rem;
+    }
+
+    .map-title-row img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .guessing-toggle {
+        padding: 0.35rem 0.45rem;
+        font-size: 0.7rem;
     }
 }
