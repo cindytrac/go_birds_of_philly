@@ -210,6 +210,7 @@ html {
 .map-title-row {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.65rem;
 }
 
@@ -233,10 +234,8 @@ html {
 }
 
 .guessing-toggle {
-    position: absolute;
-    z-index: 1002;
-    top: 82px;
-    right: 12px;
+    flex: none;
+    margin-left: auto;
     padding: 0.65rem 0.85rem;
     border: 1px solid #145746;
     border-radius: 0.3rem;

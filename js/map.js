@@ -75,17 +75,11 @@ titleRow.append(titleBirdIcon);
 const mapTitle = document.createElement("h1");
 mapTitle.textContent = "Birds of Philly";
 titleRow.append(mapTitle);
-mapIntro.append(titleRow);
 
 const mapDescription = document.createElement("p");
 const mapDescription2 = document.createElement("p");
 mapDescription.textContent = " Select a bird marker to listen.";
 mapDescription2.textContent = "Try Guessing Mode to test your bird-call knowledge.";
-
-mapIntro.append(mapDescription);
-mapIntro.append(mapDescription2);
-mapSidebar.append(mapIntro, recordingPanel);
-mapElement.append(mapSidebar);
 
 let guessingMode = false;
 let selectedRecording;
@@ -107,7 +101,11 @@ guessingToggle.addEventListener("click", (event) => {
     recordingPanel.classList.toggle("guessing-mode", guessingMode);
     if (selectedRecording) renderRecording();
 });
-mapElement.append(guessingToggle);
+titleRow.append(guessingToggle);
+mapIntro.append(titleRow);
+mapIntro.append(mapDescription, mapDescription2);
+mapSidebar.append(mapIntro, recordingPanel);
+mapElement.append(mapSidebar);
 
 function showMapNotice(text) {
     let notice = mapElement.querySelector(".map-notice");
