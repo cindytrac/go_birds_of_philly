@@ -198,8 +198,7 @@ html {
 }
 
 .map-title {
-    width: max-content;
-    max-width: min(760px, calc(100vw - 24px));
+    width: 100%;
     flex: none;
     min-width: 0;
     padding: 0.8rem 1rem;
