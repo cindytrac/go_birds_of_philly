@@ -22,22 +22,19 @@ enterMapButton.addEventListener("click", () => {
     mapElement.focus({ preventScroll: true });
 });
 
-const birdIcon = L.icon({
-    iconUrl: "images/bird.png",
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -16],
-    className: "bird-marker",
-    alt: "Bird recording location",
+const createBirdIcon = (image, alt, selected = false) => L.divIcon({
+    html: `<img src="${image}" alt="${alt}">`,
+    className: selected ? "bird-marker-hitbox is-selected" : "bird-marker-hitbox",
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
+    popupAnchor: [0, -22],
 });
-const selectedBirdIcon = L.icon({
-    iconUrl: "images/bird-selected.png",
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -16],
-    className: "bird-marker bird-marker-selected",
-    alt: "Selected bird recording location",
-});
+const birdIcon = createBirdIcon("images/bird.png", "Bird recording location");
+const selectedBirdIcon = createBirdIcon(
+    "images/bird-selected.png",
+    "Selected bird recording location",
+    true,
+);
 
 const recordingPanel = document.createElement("aside");
 recordingPanel.className = "recording-panel";
@@ -282,6 +279,11 @@ async function loadRecordings() {
         spiderLegPolylineOptions: { weight: 0, opacity: 0 },
     });
     clusters.on("clusterclick", (event) => {
+        if (window.matchMedia("(max-width: 600px)").matches) {
+            map.fitBounds(event.layer.getBounds(), { padding: [24, 24] });
+            return;
+        }
+
         const sidebarWidth = mapSidebar.getBoundingClientRect().width;
         map.fitBounds(event.layer.getBounds(), {
             paddingTopLeft: [sidebarWidth + 24, 24],
